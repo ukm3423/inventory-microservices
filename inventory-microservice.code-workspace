@@ -1,0 +1,30 @@
+{
+	"folders": [
+		{
+			"path": "authservice"
+		},
+		{
+			"path": "basedomain"
+		},
+		{
+			"path": "eureka-server"
+		},
+		{
+			"path": "masterservice"
+		},
+		{
+			"path": "notificationservice"
+		},
+		{
+			"path": "studentservice"
+		},
+		{
+			"name": "api-gateway",
+			"path": "api-gateway"
+		}
+	],
+	"settings": {
+		"java.configuration.updateBuildConfiguration": "automatic",
+		"java.compile.nullAnalysis.mode": "automatic"
+	}
+}
