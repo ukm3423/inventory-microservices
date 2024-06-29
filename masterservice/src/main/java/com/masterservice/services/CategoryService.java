@@ -70,7 +70,12 @@ public class CategoryService {
 
         if (op.isPresent()) {
             Category category = op.get();
-            category.setStatus(0);
+            if(category.getStatus() == 0){
+                category.setStatus(1);
+            }else{
+                category.setStatus(0);
+            }
+            
             categoryRepo.save(category);
             return true;
         } else {

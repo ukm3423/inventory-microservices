@@ -10,9 +10,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,21 +23,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name="categories")
-public class Category {
+@Table(name="products")
+public class Product {
     
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id; 
 
-    @NotNull
-    @Column(name="category_name", nullable=false)
-    @Size(min=2, max=100)
-    private String categoryName;
+    @ManyToOne
+    @JoinColumn(name="category_id", nullable=false)
+    private Category category;
 
-    @Column(name="category_desc", nullable=true)
-    @Size(max=250)
-    private String categoryDescription;
+    private String productCode; 
+
+    private String productName; 
+    
+    private Double price;
 
     @Column(name="status" , columnDefinition = "integer default 0")
     private Integer status;
@@ -49,5 +51,5 @@ public class Category {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    
+
 }

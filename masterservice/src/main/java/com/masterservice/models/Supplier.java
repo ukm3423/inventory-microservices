@@ -23,31 +23,40 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name="categories")
-public class Category {
+@Table(name="suppliers")
+public class Supplier {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; 
 
     @NotNull
-    @Column(name="category_name", nullable=false)
-    @Size(min=2, max=100)
-    private String categoryName;
+	@Size(min=2, max=100)
+    private String supplierName;
 
-    @Column(name="category_desc", nullable=true)
-    @Size(max=250)
-    private String categoryDescription;
+    private String gender;
+
+    private String streetAddress;
+ 
+    private String cityName;
+ 
+    private String stateName;
+    
+    private Long zipCode;
+ 
+    @Column(nullable = false, unique = true)
+    private String emailAddress;
+ 
+    @Column(nullable = false , unique = true)
+    private Long phone;
 
     @Column(name="status" , columnDefinition = "integer default 0")
     private Integer status;
 
     @CreationTimestamp
-    @Column(updatable=false)
+    @Column(updatable = false)
     private LocalDateTime createdAt; 
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
-    
 }

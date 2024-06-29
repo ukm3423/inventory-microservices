@@ -1,7 +1,7 @@
 package com.masterservice.dto;
 
 import io.micrometer.common.lang.Nullable;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CategoryDTO {
     
-    @NotNull(message = "Category is required")
+    @NotBlank(message = "Category is required")
     private String categoryName; 
 
     @Nullable
