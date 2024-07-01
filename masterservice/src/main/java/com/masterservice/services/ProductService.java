@@ -117,6 +117,13 @@ public class ProductService {
         // Returning the list of courses sorted by descending order of ID
         return productRepo.findAll(sort);
     }
+
+    public List<Product> getCategoryWiseProductList(Long categoryId) {
+        
+        List<Product> products = productRepo.findByCategoryId(categoryId);
+
+        return products;
+    }
     
 
 }

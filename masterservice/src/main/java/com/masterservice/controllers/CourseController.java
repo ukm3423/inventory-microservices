@@ -145,7 +145,7 @@ public class CourseController {
         if (course == null)
             throw new IllegalStateException("Course Not Found of Id : " + courseId);
 
-        Map<Object, Object> res = new HashMap<Object, Object>();
+        Map<Object, Object> res = new HashMap<>();
         res.put("message", "Category Updated Successfully");
         res.put("data", course);
         res.put("status", true);

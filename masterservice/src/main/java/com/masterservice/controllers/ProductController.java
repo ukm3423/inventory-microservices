@@ -37,7 +37,6 @@ import jakarta.validation.Valid;
 @CrossOrigin
 @RequestMapping("/products")
 public class ProductController {
-    
 
     /**
      * * ===========================================================================
@@ -98,11 +97,10 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(resp);
     }
 
-
-
     /**
      * * Update Product BY Id
      * * API : http://localhost:8080/masterservice/api/products/update/1
+     * 
      * @param productId
      * @param req
      * @return
@@ -154,8 +152,6 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(res);
     }
 
-
-
     /**
      * * Delete Product By Id
      * * API : http://localhost:8080/masterservice/api/products/delete/1
@@ -182,7 +178,6 @@ public class ProductController {
 
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
-
 
     /**
      * * Get Product By Id
@@ -237,14 +232,12 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
 
-
     /**
      * * Getting Product List
      * * API : http://localhost:8082/masterservice/api/products/get-products
      */
     @GetMapping("/get-products")
-    public ResponseEntity<?> getProducts(){
-
+    public ResponseEntity<?> getProducts() {
 
         List<Product> Products = productService.getProductList();
 
@@ -255,6 +248,29 @@ public class ProductController {
 
         resp.put("message", "Product Details Retrieved Successfully");
         resp.put("Products", Products);
+        resp.put("status", true);
+
+        return ResponseEntity.status(HttpStatus.OK).body(resp);
+
+    }
+
+    /**
+     * * Getting Product List
+     * * API : http://localhost:8082/masterservice/api/products/get-products
+     */
+    @GetMapping("/get-products/{id}")
+    public ResponseEntity<?> getProductByCategoryId(@PathVariable(name="id") Long categoryId) {
+
+        List<Product> products = productService.getCategoryWiseProductList(categoryId);
+
+        if (products == null)
+            throw new IllegalStateException("Products Not Available !");
+
+        Map<Object, Object> resp = new HashMap<>();
+
+        resp.put("message", "Product Details Retrieved Successfully");
+        resp.put("Products", products);
+        resp.put("name", "Category Wise Product List.");
         resp.put("status", true);
 
         return ResponseEntity.status(HttpStatus.OK).body(resp);
