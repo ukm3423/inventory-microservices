@@ -34,15 +34,7 @@ public class Supplier {
 	@Size(min=2, max=100)
     private String supplierName;
 
-    private String gender;
-
-    private String streetAddress;
- 
-    private String cityName;
- 
-    private String stateName;
-    
-    private Long zipCode;
+    private String address;
  
     @Column(nullable = false, unique = true)
     private String emailAddress;
