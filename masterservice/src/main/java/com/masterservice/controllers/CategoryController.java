@@ -244,7 +244,7 @@ public class CategoryController {
         Map<Object, Object> resp = new HashMap<>();
 
         resp.put("message", "Category Details Retrieved Successfully");
-        resp.put("courses", courses);
+        resp.put("data", courses);
         resp.put("status", true);
 
         return ResponseEntity.status(HttpStatus.OK).body(resp);

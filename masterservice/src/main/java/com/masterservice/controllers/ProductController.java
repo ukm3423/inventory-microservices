@@ -247,7 +247,7 @@ public class ProductController {
         Map<Object, Object> resp = new HashMap<>();
 
         resp.put("message", "Product Details Retrieved Successfully");
-        resp.put("Products", Products);
+        resp.put("data", Products);
         resp.put("status", true);
 
         return ResponseEntity.status(HttpStatus.OK).body(resp);
@@ -258,8 +258,8 @@ public class ProductController {
      * * Getting Product List
      * * API : http://localhost:8082/masterservice/api/products/get-products
      */
-    @GetMapping("/get-products/{id}")
-    public ResponseEntity<?> getProductByCategoryId(@PathVariable(name="id") Long categoryId) {
+    @GetMapping("/get-products/{categoryId}")
+    public ResponseEntity<?> getProductByCategoryId(@PathVariable(name="categoryId") Long categoryId) {
 
         List<Product> products = productService.getCategoryWiseProductList(categoryId);
 
@@ -269,7 +269,7 @@ public class ProductController {
         Map<Object, Object> resp = new HashMap<>();
 
         resp.put("message", "Product Details Retrieved Successfully");
-        resp.put("Products", products);
+        resp.put("data", products);
         resp.put("name", "Category Wise Product List.");
         resp.put("status", true);
 
