@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.masterservice.dto.CategoryDTO;
@@ -93,13 +92,10 @@ public class CategoryService {
         return categoryRepo.findAll(pageable);
     }
 
-    public List<Category> getCoursesList() {
-        // Creating a Sort object to specify the sorting criteria
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+    public List<Category> getCategoryList() {
+        // Sort sort = Sort.by(Sort.Direction.DESC, "id");
     
-        // Returning the list of courses sorted by descending order of ID
-        return categoryRepo.findAll(sort);
-    }
+        return categoryRepo.findByStatusOrderByidDesc(1);    }
 
 
 }

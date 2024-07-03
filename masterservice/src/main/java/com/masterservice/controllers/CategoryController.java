@@ -236,7 +236,7 @@ public class CategoryController {
     public ResponseEntity<Map<Object, Object>> getCourses(){
 
 
-        List<Category> courses = categoryService.getCoursesList();
+        List<Category> courses = categoryService.getCategoryList();
 
         if (courses == null)
             throw new IllegalStateException("Category Not Available !");
