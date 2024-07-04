@@ -89,6 +89,12 @@ public class OrderService {
         return order;
     }
 
+    public List<Order> getAllOrders() {
+        
+        return orderRepo.findAll();
+
+    }
+
     
 
 }
