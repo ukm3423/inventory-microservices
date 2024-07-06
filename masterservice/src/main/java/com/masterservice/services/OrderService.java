@@ -3,12 +3,14 @@ package com.masterservice.services;
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.masterservice.dto.OrderDetailsDTO;
 import com.masterservice.handlers.Generator;
+import com.masterservice.mapper.OrderResponse;
 import com.masterservice.mapper.PlaceOrderRequest;
 import com.masterservice.models.Category;
 import com.masterservice.models.Order;
@@ -34,9 +36,6 @@ public class OrderService {
     private OrderDetailsRepository orderDetailsRepo;
 
     @Autowired
-    private Generator generator;
-
-    @Autowired
     private CategoryRepository catRepo;
 
     @Autowired
@@ -46,10 +45,9 @@ public class OrderService {
     private SupplierRepository suppRepo;
 
     public Object addOrder(PlaceOrderRequest req) {
-        
 
         Supplier supplier = suppRepo.findById(req.getSupplierId()).get();
-        String orderNumber = Generator.generateOrderNumber(); 
+        String orderNumber = Generator.generateOrderNumber();
         Order order = Order.builder()
                 .orderDate(req.getDate())
                 .supplier(supplier)
@@ -61,27 +59,27 @@ public class OrderService {
 
         order = orderRepo.save(order);
 
-        List<OrderDetailsDTO> orderList = req.getProductDetailsList(); 
+        List<OrderDetailsDTO> orderList = req.getProductDetailsList();
 
         @SuppressWarnings("rawtypes")
         Iterator itr = orderList.iterator();
 
-        while(itr.hasNext()){
+        while (itr.hasNext()) {
             OrderDetailsDTO od = (OrderDetailsDTO) itr.next();
 
             Category category = catRepo.findById(od.getCategoryId()).get();
             Product product = productRepo.findById(od.getProductId()).get();
 
             OrderDetails orderDetails = OrderDetails.builder()
-                        .category(category)
-                        .product(product)
-                        .order(order)
-                        .quantity(od.getQuantity())
-                        .rate(od.getRate())
-                        .status(0)
-                        .updatedAt(LocalDateTime.now())
-                        .createdAt(LocalDateTime.now())
-                        .build();
+                    .category(category)
+                    .product(product)
+                    .order(order)
+                    .quantity(od.getQuantity())
+                    .rate(od.getRate())
+                    .status(0)
+                    .updatedAt(LocalDateTime.now())
+                    .createdAt(LocalDateTime.now())
+                    .build();
             orderDetailsRepo.save(orderDetails);
             System.out.println(orderDetails);
         }
@@ -90,11 +88,36 @@ public class OrderService {
     }
 
     public List<Order> getAllOrders() {
-        
+
         return orderRepo.findAll();
 
     }
 
-    
+    public OrderResponse getOrderById(Long orderId) {
+
+        Order order = orderRepo.findById(orderId).orElseThrow(() -> new IllegalStateException("Order not found of id " + orderId));
+        
+        List<OrderDetails> orderDetailsList = orderDetailsRepo.findByOrder(order);
+
+        List<OrderDetailsDTO> orderDetailsDTOList = orderDetailsList.stream()
+                .map(orderDetails -> OrderDetailsDTO.builder()
+                        .categoryId(orderDetails.getCategory().getId())
+                        .categoryName(orderDetails.getCategory().getCategoryName())
+                        .productId(orderDetails.getProduct().getId())
+                        .productName(orderDetails.getProduct().getProductName())
+                        .quantity(orderDetails.getQuantity())
+                        .rate(orderDetails.getRate())
+                        .build())
+                .collect(Collectors.toList());
+
+        OrderResponse orderResponse = OrderResponse.builder()
+                .supplierName(order.getSupplier().getSupplierName())
+                .orderNumber(order.getOrderNumber())
+                .orderDate(order.getOrderDate())
+                .orderDetailsList(orderDetailsDTOList)
+                .build();
+
+        return orderResponse;
+    }
 
 }

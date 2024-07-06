@@ -120,7 +120,7 @@ public class ProductService {
 
     public List<Product> getCategoryWiseProductList(Long categoryId) {
         
-        List<Product> products = productRepo.findByCategoryId(categoryId);
+        List<Product> products = productRepo.findByCategoryIdAndStatus(categoryId, 1);
 
         return products;
     }
