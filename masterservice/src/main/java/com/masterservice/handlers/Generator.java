@@ -36,4 +36,20 @@ public class Generator {
     private static boolean isorderNumberUnique(String orderNumber) {
         return orderRepo.findByOrderNumber(orderNumber) == null;
     }
+
+    // ====================================  Invoice Number Generator =================================
+    public static String generateInvoiceNumber() {
+        String orderNumber;
+        do {
+            orderNumber = generateRandomInvoiceNumber();
+        } while (!isorderNumberUnique(orderNumber));
+        return orderNumber;
+    }
+
+    private static String generateRandomInvoiceNumber() {
+        Random random = new Random();
+        // You can adjust the length of the random number as needed
+        String randomNumber = String.format("%010d", random.nextInt(1000000));
+        return "DLR" + randomNumber;
+    }
 }
