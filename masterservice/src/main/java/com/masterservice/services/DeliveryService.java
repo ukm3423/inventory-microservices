@@ -45,6 +45,11 @@ public class DeliveryService {
 
     public Object makeDelivery(DeliveryRequest req) {
 
+        Order order = orderRepo.findByOrderNumber(req.getOrderCode()); 
+        if(order.getStatus() == 1){
+            throw new IllegalStateException("Already delivered");
+        }
+
         String invoiceNumber = Generator.generateInvoiceNumber();
         Delivery delivery = Delivery.builder()
                 .orderDate(req.getOrderDate())
@@ -86,7 +91,8 @@ public class DeliveryService {
         }
 
         // Update order status to delivered in order repository
-        Order order = orderRepo.findByOrderNumber(req.getOrderCode()); 
+        order.setDeliveryDate(delivery.getDeliveryDate());
+        order.setInvoiceNumber(delivery.getInvoiceNumber());
         order.setStatus(1);
         orderRepo.save(order);
 

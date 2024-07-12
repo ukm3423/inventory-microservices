@@ -50,6 +50,6 @@ public class Generator {
         Random random = new Random();
         // You can adjust the length of the random number as needed
         String randomNumber = String.format("%010d", random.nextInt(1000000));
-        return "DLR" + randomNumber;
+        return "INV" + randomNumber;
     }
 }

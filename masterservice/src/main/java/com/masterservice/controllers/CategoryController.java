@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -251,6 +252,29 @@ public class CategoryController {
 
     }
 
+
+    /**
+     * * Getting Course List
+     * * API : http://localhost:8082/masterservice/api/category/get-categories
+     */
+    @GetMapping("/get-categories-list")
+    public ResponseEntity<?> getCategoryList(){
+
+
+        Set<Category> courses = categoryService.getDeliveredCategoryList();
+
+        if (courses == null)
+            throw new IllegalStateException("Category Not Available !");
+
+        Map<Object, Object> resp = new HashMap<>();
+
+        resp.put("message", "Category Details Retrieved Successfully");
+        resp.put("data", courses);
+        resp.put("status", true);
+
+        return ResponseEntity.status(HttpStatus.OK).body(resp);
+
+    }
 
 
 

@@ -1,6 +1,5 @@
 package com.masterservice.models;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -24,28 +23,28 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name="orders")
-public class Order {
+@Table(name="sale_details")
+public class SaleDetails {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id; 
+    
+    private Integer quantity; 
 
-    @Column(name = "order_number", unique = true)
-    private String orderNumber; 
-
-    @Column(name = "invoice_number", unique = true, nullable=true)
-    private String invoiceNumber;
-
-    @Column(name="order_date")
-    private LocalDate orderDate;
-
-    @Column(name = "delivery_date", nullable= true)
-    private LocalDate deliveryDate;
+    private Double rate; 
 
     @ManyToOne
-    @JoinColumn(name="supplier_id", nullable=false)
-    private Supplier supplier; 
+    @JoinColumn(name="category_id", nullable=false)
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name="product_id", nullable=false)
+    private Product product; 
+
+    @ManyToOne
+    @JoinColumn(name="sale_id", nullable=false)
+    private Sale sale; 
 
     @Column(name="status" , columnDefinition = "integer default 0")
     private Integer status;

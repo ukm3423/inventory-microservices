@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -203,6 +204,8 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
 
+
+
     /**
      * * Get All Product Details
      * * API : http://localhost:8082/masterservice/api/products/get-list
@@ -276,5 +279,30 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(resp);
 
     }
+
+
+    /**
+     * * Getting Product List
+     * * API : http://localhost:8082/masterservice/api/products/get-products
+     */
+    @GetMapping("/get-delivered-products/{categoryId}")
+    public ResponseEntity<?> getDeliveredProductByCategoryId(@PathVariable(name="categoryId") Long categoryId) {
+
+        Set<Product> products = productService.getDeliveredProductList(categoryId);
+
+        if (products == null)
+            throw new IllegalStateException("Products Not Available !");
+
+        Map<Object, Object> resp = new HashMap<>();
+
+        resp.put("message", "Product Details Retrieved Successfully");
+        resp.put("data", products);
+        resp.put("name", "Category Wise Product List.");
+        resp.put("status", true);
+
+        return ResponseEntity.status(HttpStatus.OK).body(resp);
+
+    }
+
 
 }

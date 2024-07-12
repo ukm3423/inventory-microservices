@@ -1,8 +1,11 @@
 package com.masterservice.services;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,7 +15,9 @@ import org.springframework.stereotype.Service;
 
 import com.masterservice.dto.ProductDTO;
 import com.masterservice.models.Category;
+import com.masterservice.models.DeliveryDetails;
 import com.masterservice.models.Product;
+import com.masterservice.repository.DeliveryDetailsRepository;
 import com.masterservice.repository.ProductRepository;
 
 import jakarta.validation.Valid;
@@ -22,6 +27,9 @@ public class ProductService {
 
     @Autowired
     private ProductRepository productRepo;
+
+    @Autowired
+    private DeliveryDetailsRepository deliveryRepo;
 
     @Autowired
     private CategoryService catService;
@@ -123,6 +131,23 @@ public class ProductService {
         List<Product> products = productRepo.findByCategoryIdAndStatus(categoryId, 1);
 
         return products;
+    }
+
+    public Set<Product> getDeliveredProductList(Long categoryId) {
+
+        Category category = catService.getCategoryById(categoryId);
+        
+        List<DeliveryDetails> products = deliveryRepo.findByCategory(category);
+
+        Set<Product> productList = new HashSet<>();
+
+        Iterator it = products.iterator();
+        while (it.hasNext()) {
+            DeliveryDetails dd = (DeliveryDetails) it.next();
+            productList.add(dd.getProduct());
+        }
+        return productList;
+
     }
     
 

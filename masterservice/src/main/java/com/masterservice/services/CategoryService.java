@@ -1,8 +1,11 @@
 package com.masterservice.services;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,13 +14,17 @@ import org.springframework.stereotype.Service;
 
 import com.masterservice.dto.CategoryDTO;
 import com.masterservice.models.Category;
+import com.masterservice.models.DeliveryDetails;
 import com.masterservice.repository.CategoryRepository;
+import com.masterservice.repository.DeliveryDetailsRepository;
 
 import jakarta.validation.Valid;
 
 @Service
 public class CategoryService {
     
+    @Autowired
+    private DeliveryDetailsRepository ddRepo;
 
     @Autowired
     private CategoryRepository  categoryRepo;
@@ -96,6 +103,21 @@ public class CategoryService {
         // Sort sort = Sort.by(Sort.Direction.DESC, "id");
     
         return categoryRepo.findByStatusOrderByidDesc(1);    }
+
+
+    public Set<Category> getDeliveredCategoryList() {
+        
+        List<DeliveryDetails> deliveryDetailses = ddRepo.findAll();
+        Set<Category> categories = new HashSet<>();
+        Iterator itr = deliveryDetailses.iterator();
+        while (itr.hasNext()) {
+            DeliveryDetails dd = (DeliveryDetails) itr.next();
+            categories.add(dd.getCategory());
+        }
+
+        return categories;
+        
+    }
 
 
 }
