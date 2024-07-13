@@ -20,9 +20,11 @@ import com.masterservice.models.Product;
 import com.masterservice.repository.DeliveryDetailsRepository;
 import com.masterservice.repository.ProductRepository;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @Service
+@Transactional
 public class ProductService {
 
     @Autowired

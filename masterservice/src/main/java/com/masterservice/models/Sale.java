@@ -35,11 +35,17 @@ public class Sale {
 	private Long contactNo; 
 	
 	@Column(name = "bill_no", unique = true)
-	private String billNo;
+	private String billNumber;
 	
 	@Column(name = "bill_date")
 	private LocalDate billDate;
     
+	@Column(name = "sale_date")
+	private LocalDate saleDate;
+
+	@Column(name="status" , columnDefinition = "integer default 0")
+    private Integer status;
+
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "created_at", nullable = false, updatable = false)
