@@ -15,10 +15,12 @@ import com.masterservice.models.Category;
 import com.masterservice.models.Delivery;
 import com.masterservice.models.DeliveryDetails;
 import com.masterservice.models.Order;
+import com.masterservice.models.OrderDetails;
 import com.masterservice.models.Product;
 import com.masterservice.repository.CategoryRepository;
 import com.masterservice.repository.DeliveryDetailsRepository;
 import com.masterservice.repository.DeliveryRepository;
+import com.masterservice.repository.OrderDetailsRepository;
 import com.masterservice.repository.OrderRepository;
 import com.masterservice.repository.ProductRepository;
 
@@ -37,6 +39,9 @@ public class DeliveryService {
     private OrderRepository orderRepo;
 
     @Autowired
+    private OrderDetailsRepository orderDetailsRepo;
+
+    @Autowired
     private CategoryRepository catRepo;
 
     @Autowired
@@ -46,6 +51,7 @@ public class DeliveryService {
     public Object makeDelivery(DeliveryRequest req) {
 
         Order order = orderRepo.findByOrderNumber(req.getOrderCode()); 
+        List<OrderDetails> orderDetailsList = orderDetailsRepo.findByOrder(order);
         if(order.getStatus() == 1){
             throw new IllegalStateException("Already delivered");
         }
@@ -95,6 +101,14 @@ public class DeliveryService {
         order.setInvoiceNumber(delivery.getInvoiceNumber());
         order.setStatus(1);
         orderRepo.save(order);
+
+        // Update order details status to delivered in order repository
+        @SuppressWarnings("rawtypes")
+        Iterator iterator = orderDetailsList.iterator();
+        while(iterator.hasNext()){
+            OrderDetails od = (OrderDetails) iterator.next(); 
+            od.setStatus(1);
+        }
 
         return delivery;
     }

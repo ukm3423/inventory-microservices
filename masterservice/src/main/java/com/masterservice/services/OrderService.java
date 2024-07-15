@@ -44,6 +44,11 @@ public class OrderService {
     @Autowired
     private SupplierRepository suppRepo;
 
+    /**
+     * Place a New Order
+     * @param req
+     * @return
+     */
     public Object addOrder(PlaceOrderRequest req) {
 
         Supplier supplier = suppRepo.findById(req.getSupplierId()).get();
@@ -87,12 +92,22 @@ public class OrderService {
         return order;
     }
 
+    /**
+     * Get All Order Details
+     * @return
+     */
     public List<Order> getAllOrders() {
 
         return orderRepo.findAll();
 
     }
 
+
+    /**
+     * Get Order By Order Id
+     * @param orderId
+     * @return
+     */
     public OrderResponse getOrderById(Long orderId) {
 
         Order order = orderRepo.findById(orderId).orElseThrow(() -> new IllegalStateException("Order not found of id " + orderId));
@@ -119,5 +134,20 @@ public class OrderService {
 
         return orderResponse;
     }
+
+    /**
+     * GET OrderDetails for quantity
+     * @param product
+     * @return
+     */
+    public List<OrderDetails> getOrderDetailsByproduct(Product product) {
+
+        List<OrderDetails> orderDetails = orderDetailsRepo.findByProductAndStatus(product, 1);
+
+        return orderDetails;
+    }
+
+
+
 
 }

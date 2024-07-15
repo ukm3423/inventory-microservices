@@ -89,11 +89,20 @@ public class SaleService {
     }
 
 
+    /**
+     * Get SALE details list
+     * @return
+     */
     public List<Sale> getAllSales() {
         return saleRepo.findAll();
     }
 
 
+    /**
+     * Get Sale details by ID
+     * @param saleId
+     * @return
+     */
     public SaleResponse getSaleById(Long saleId) {
 
         Sale sale = saleRepo.findById(saleId).orElseThrow(() -> new IllegalStateException("Sale not found of id " + saleId));
@@ -123,4 +132,17 @@ public class SaleService {
         return saleResponse;
     }
     
+
+    /**
+     * GET OrderDetails for quantity
+     * @param product
+     * @return
+     */
+    public List<SaleDetails> getOrderDetailsByproduct(Product product) {
+
+        List<SaleDetails> saleDetails = saleDetailsRepo.findByProductAndStatus(product, 1);
+
+        return saleDetails;
+    }
+
 }

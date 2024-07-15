@@ -1,5 +1,6 @@
 package com.authservice.controllers;
 
+import java.security.Key;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -31,7 +32,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.security.Key;
 
 @RestController
 @CrossOrigin
